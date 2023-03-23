@@ -3,7 +3,6 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_MainColor ("Main Color", color) = (1.0, 0, 0, 1.0)
 		_RayColor ("Ray Color", color) = (1.0, 0, 0, 1.0)
 		_RayPower ("Ray Power", Range(0, 3)) = 1.0
     }
@@ -42,7 +41,6 @@
 
         sampler2D _MainTex;
         float4 _MainTex_ST;
-		fixed4 _MainColor;
 		fixed4 _RayColor;
 		float _RayPower;
 
@@ -55,7 +53,7 @@
 			fixed3 worldNormalDir = normalize(worldNormal);
 			fixed3 worldViewDir = normalize(WorldSpaceViewDir(v.vertex));
 
-			float rim = 1 - saturate(dot(worldNormalDir, worldViewDir));
+			float rim = 1 - max( 0, dot(worldNormalDir, worldViewDir));
 			o.color = _RayColor * pow(rim, _RayPower);
 			return o;
 		}
@@ -76,7 +74,7 @@
         fixed4 frag (v2f i) : SV_Target
         {
             fixed4 col = tex2D(_MainTex, i.uv);
-            return col * _MainColor;
+            return col;
         }
 
 		ENDCG
