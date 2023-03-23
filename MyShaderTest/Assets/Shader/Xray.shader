@@ -84,8 +84,10 @@
 		Pass
 		{
 			Tags { "RenderType" = "Opaque" "Queue"="Geometry+1" }
+			//XRay主要是Greater渲染当前几何物体后面的物体
 			ZTest Greater
 			ZWrite Off
+			//原颜色值
 			Blend SrcColor OneMinusSrcColor
 
 			CGPROGRAM
